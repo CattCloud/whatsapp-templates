@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plantillas Whatsapp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+</head>
+
+  <body>
+
+    <main class="border border-[#075e54] rounded m-6">
+      <section id="header_section" class="w-full fomt-bold bg-[#128c7e] text-2xl text-white p-4">
+        Gestor de Plantillas Whattsap
+      </section>
+      <section class="bg-[#ece5dd] p-4">
+        <ul
+          id="templates-container"
+          class="grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2"
+        ></ul>
+      </section>
+    </main>
+    <footer></footer>
+    <script src="./js/app.js"></script>
+    <script src="./js/models/Template.js"></script>
+    <script src="./js/handlers/template.js"></script>
+  </body>
+</html>
