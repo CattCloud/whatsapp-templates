@@ -1,5 +1,94 @@
 # Proyecto Plantilla WhatsApp
 
+## Implementación del Patrón Store en la Gestión de Plantillas de WhatsApp
+Este proyecto utiliza el **Patrón Store** para gestionar el estado de las plantillas de WhatsApp. El Store actúa como una capa de gestión de estado centralizada que facilita la actualización y suscripción a los cambios de estado, sin depender de un framework específico.
+
+## Estructura del Store
+El Store se implementa mediante una función llamada `createStore`, que maneja el estado de forma reactiva.
+
+```javascript
+function createStore(initialState = []) {
+    let state = initialState; // Estado privado de la función
+    const listeners = []; // Lista de funciones suscritas a cambios de estado
+
+    function getState() {
+        return state;
+    }
+
+    function setState(newState) {
+        state = newState;
+        listeners.forEach(listener => listener(state)); // Notifica a los suscriptores
+    }
+
+    function addTemplate(newTemplate) {
+        const newState = [...state, newTemplate];
+        setState(newState);
+    }
+
+    function suscribe(listener) {
+        listeners.push(listener);
+        return () => {
+            const index = listeners.indexOf(listener);
+            if (index > -1) {
+                listeners.splice(index, 1);
+            }
+        };
+    }
+
+    function initializeStore() {
+        const newTemplates = [
+            new Template("Bienvenida", "Hola, bienvenido al curso", "#hash1,#hash2", "link1", "date1"),
+            new Template("Oferta especial", "Aprovecha esta oferta única", "#hash1,#hash2", "link1", "date1")
+        ];
+        setState(newTemplates);
+    }
+
+    return { getState, setState, addTemplate, suscribe, initializeStore };
+}
+```
+
+## Explicación de las Funciones
+
+### `getState()`
+Retorna el estado actual del Store. Se utiliza para acceder a la lista de plantillas almacenadas.
+
+### `setState(newState)`
+Actualiza el estado interno del Store con un nuevo estado y notifica a todos los suscriptores sobre el cambio.
+
+### `addTemplate(newTemplate)`
+Agrega una nueva plantilla al estado sin modificar el original. Usa el **spread operator (`...`)** para crear una nueva referencia del estado y luego lo actualiza con `setState()`.
+
+### `suscribe(listener)`
+Permite que una función externa (listener) se suscriba a los cambios de estado.
+Devuelve una función para desuscribirse cuando sea necesario.
+
+### `initializeStore()`
+Inicializa el Store con una lista de plantillas predefinidas. Llama a `setState()` para actualizar el estado.
+
+## Uso del Store en el Proyecto
+
+### Creación del Store Global
+```javascript
+const templatesStore = createStore([]);
+window.templatesStore = templatesStore; // Hacer accesible el Store globalmente
+```
+
+### Renderizado de Plantillas en la Interfaz
+Cada vez que se agrega o elimina una plantilla, se vuelve a renderizar la lista sin necesidad de recargar la página.
+```javascript
+function renderTemplates() {
+    templatesContainer.innerHTML = "";
+    const templates = window.templatesStore.getState();
+    templates.forEach(template => {
+        // Código para renderizar las plantillas en el DOM
+    });
+}
+
+// Suscribirse para actualizar la UI en cada cambio de estado
+window.templatesStore.suscribe(renderTemplates);
+```
+--
+
 ## Descripción Técnica de la Clase `Template`
 
 ### Propiedades
