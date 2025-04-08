@@ -5,12 +5,22 @@ class Template {
       this.hashTag = hashTag;
       this.link = link;
       this.date = date;
+      this.id=this.generateId();
+      console.log(this.id);
     }
   
-    saveTemplate() {
+
+    // Método para generar un id único
+    generateId() {
+      return `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+    }
+
+
+    /*saveTemplate() {
       templates.push(this);
-    }
+    }*/
   
+    /*
     render() {
       const li = document.createElement("li"); // li
       li.classList.add("bg-white", "p-4", "my-3", "rounded"); // li class
@@ -49,4 +59,5 @@ class Template {
   
       templatesContainer.appendChild(li);
     }
+    */
   }
