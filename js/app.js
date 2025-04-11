@@ -64,6 +64,7 @@ function renderTemplates() {
 
 window.templatesStore.suscribe(renderTemplates);
 
+
 document.addEventListener("DOMContentLoaded", function () {
   window.templatesStore.initializeStore();
 });
@@ -102,6 +103,20 @@ function captureNewTemplate(){
   return new Template(title,message,hashtags,link,date);
 }
 
+
+function clearAll() {
+  if(window.templatesStore.getState().length==0){
+    alert("No hay plantillas por eliminar");
+  }else{
+    resetearPlantillas();
+    // Permite que el navegador actualice la interfaz
+    setTimeout(() => {
+        alert("Se eliminaron todas las plantillas");
+    }, 0);
+  }
+
+}
+
 function clearForm() {
   document.getElementById('title-input').value = '';
   document.getElementById('message-input').value = '';
@@ -129,5 +144,8 @@ function deleteTemplate(id) {
 formAddTemplate.addEventListener('submit', function(event) {
   event.preventDefault(); // Evita el comportamiento predeterminado
   window.templatesStore.addTemplate(captureNewTemplate());
+  guardarPlantillas();
   clearForm();
 });
+
+
