@@ -3,6 +3,7 @@ function saveTemplate(){
         "templates",
         JSON.stringify(window.templatesStore.getState())
       );
+    console.log("Se guardaron las plantillas en el LocalStorage");
 }
 
 function resetearPlantillas(){

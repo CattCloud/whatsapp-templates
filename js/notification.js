@@ -1,5 +1,5 @@
 const colors = {
-    success: "bg-[#4F7942] text-white",
+    success: "bg-[#9ACD32] text-white",
     error: "bg-[#FF4500] text-white",
     warning: "bg-yellow-500 text-black",
     info: "bg-sky-500 text-white",
