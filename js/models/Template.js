@@ -1,10 +1,11 @@
 class Template {
-    constructor(title, message, hashTag, link, date) {
+    constructor(title, message, hashTag, link, date,favorite=false) {
       this.title = title;
       this.message = message;
       this.hashTag = hashTag;
       this.link = link;
       this.date = date;
+      this.favorite=favorite;
       this.id=this.generateId();
       console.log(this.id);
     }

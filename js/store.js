@@ -54,7 +54,8 @@ function createStore(initialState = []) {
             newTemplate.message,
             newTemplate.hashTag,
             newTemplate.link,
-            newTemplate.date
+            newTemplate.date,
+            newTemplate.favorite
           );
         });
         setState(mappedTemplates);
