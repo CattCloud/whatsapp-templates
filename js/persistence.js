@@ -1,4 +1,4 @@
-function guardarPlantillas(){
+function saveTemplate(){
     localStorage.setItem(
         "templates",
         JSON.stringify(window.templatesStore.getState())

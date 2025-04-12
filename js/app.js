@@ -20,7 +20,7 @@ function renderTemplates() {
 
 
     const buttonDelete =document.createElement("button");
-    buttonDelete.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+    buttonDelete.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#FF4500" class="size-6">
    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
     </svg>
     `;
@@ -42,14 +42,14 @@ function renderTemplates() {
     const arrayhashTag = template.hashTag.split(","); // Dividir por la coma
          
     const containerHashTags=document.createElement("div");
-    containerHashTags.classList.add("flex","flex-wrap","gap-2","text-sm", "text-white","text-semibold","m-1");
+    containerHashTags.classList.add("flex","flex-wrap","gap-2","text-sm", "text-white","text-bold","m-1");
 
     
     arrayhashTag.forEach(hashTag => {
         const divHashTag = document.createElement("div");
-        divHashTag.classList.add("bg-[#128c7e]", "px-2", "py-1", "rounded-xl"); // Agregar las clases
+        divHashTag.classList.add("bg-[#4F7942]", "px-2", "py-1", "rounded-xl"); // Agregar las clases
         
-        divHashTag.textContent = hashTag.trim(); // Eliminar espacios adicionales y agregar el texto
+        divHashTag.textContent = "#"+hashTag.trim(); // Eliminar espacios adicionales y agregar el texto
         containerHashTags.appendChild(divHashTag); // Agregar el div al contenedor
       });
       
@@ -63,7 +63,7 @@ function renderTemplates() {
 }
 
 window.templatesStore.suscribe(renderTemplates);
-
+window.templatesStore.suscribe(saveTemplate);
 
 document.addEventListener("DOMContentLoaded", function () {
   window.templatesStore.initializeStore();
@@ -75,7 +75,7 @@ function addHashtag() {
   const div = document.createElement('div');
   div.className = "flex space-x-2";
   div.innerHTML = `
-      <input type="text" class="hashtag-input flex-1 p-2 border rounded" placeholder="Ingrese el hashtag">
+      <input type="text" class="hashtag-input flex-1 p-2 border rounded" placeholder="Hashtag">
   `;
   container.appendChild(div);
 }
@@ -106,13 +106,17 @@ function captureNewTemplate(){
 
 function clearAll() {
   if(window.templatesStore.getState().length==0){
-    alert("No hay plantillas por eliminar");
+    showNotification("error","Error","No hay plantillas guardadas");
   }else{
-    resetearPlantillas();
-    // Permite que el navegador actualice la interfaz
-    setTimeout(() => {
-        alert("Se eliminaron todas las plantillas");
-    }, 0);
+    mostrarModalConfirmacion({
+      titulo: "¿Eliminar TODAS las plantillas?",
+      mensaje: "Se eliminarán todas las plantillas guardadas. Esta acción no se puede deshacer.",
+      onConfirm: () => {
+        resetearPlantillas();
+        showNotification("success","Exito","Se eliminaron todas las plantillas");
+      }
+    });
+
   }
 
 }
@@ -132,11 +136,18 @@ function clearForm() {
 
 // Función para eliminar una plantilla por ID
 function deleteTemplate(id) {
-  // Obtener el estado actual y filtrar la plantilla eliminada
-  const updatedTemplates = window.templatesStore.getState().filter(template => template.id !== id);
-  // Actualizar el estado global
-  window.templatesStore.setState(updatedTemplates);
-  
+  mostrarModalConfirmacion({
+    titulo: "¿Eliminar esta plantilla?",
+    mensaje: "Esta acción eliminará la plantilla permanentemente.",
+    onConfirm: () => {
+      const updatedTemplates = window.templatesStore.getState().filter(template => template.id !== id);
+      // Obtener el estado actual y filtrar la plantilla eliminada
+      // Actualizar el estado global
+      window.templatesStore.setState(updatedTemplates);
+      showNotification("success","Exito","Se elimino la plantilla ");
+    }
+  });
+
 }
 
 
@@ -144,7 +155,7 @@ function deleteTemplate(id) {
 formAddTemplate.addEventListener('submit', function(event) {
   event.preventDefault(); // Evita el comportamiento predeterminado
   window.templatesStore.addTemplate(captureNewTemplate());
-  guardarPlantillas();
+  showNotification("success","Exito","Se guardo la plantilla");
   clearForm();
 });
 
