@@ -10,6 +10,7 @@ class Template {
       console.log(this.id);
     }
   
+    
 
     // Método para generar un id único
     generateId() {

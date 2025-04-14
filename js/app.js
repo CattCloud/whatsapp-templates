@@ -1,6 +1,6 @@
 const templatesContainer = document.querySelector("#templates-container");
 const btnNewTemplate = document.querySelector("#new-template");
-const formAddTemplate = document.getElementById("form-addTemplate");
+//const formAddTemplate = document.getElementById("form-addTemplate");
 
 document.addEventListener("DOMContentLoaded", function () {
   // Inicializar el store y FilterManager
@@ -23,9 +23,9 @@ function renderTemplates() {
 
   // Verificar si hay plantillas que renderizar
   if (templates.length === 0) {
-      if (templatesContainer.classList.contains("grid-cols-1") || templatesContainer.classList.contains("md:grid-cols-2")) {
+      if (templatesContainer.classList.contains("grid-cols-1") || templatesContainer.classList.contains("md:grid-cols-3")) {
         templatesContainer.classList.remove("grid-cols-1");
-        templatesContainer.classList.remove("md:grid-cols-2");
+        templatesContainer.classList.remove("md:grid-cols-3");
         templatesContainer.classList.add("w-full");
         templatesContainer.classList.add("h-full");
       }
@@ -53,7 +53,7 @@ function renderTemplates() {
   }else{    
     // Agregar una clase al elemento
     templatesContainer.classList.add("grid-cols-1");
-    templatesContainer.classList.add("md:grid-cols-2");
+    templatesContainer.classList.add("md:grid-cols-3");
     templatesContainer.classList.remove("w-full");
     templatesContainer.classList.remove("h-full");
   }
@@ -104,10 +104,12 @@ function renderTemplates() {
       "overflow-y-auto", 
       "mb-2"
     );
+
     
     // Hashtags
-    const arrayhashTag = template.hashTag.split(",");
+  
     let cadenaHashTag = "";
+    const arrayhashTag = template.hashTag.split(",");
     arrayhashTag.forEach(hashTag => {
       if (hashTag) {
         hashTag = "#" + hashTag.trim() + " ";
@@ -180,6 +182,23 @@ function renderTemplates() {
       }
     });
 
+    //Boton editar
+    const editButton=document.createElement("button");
+    editButton.classList.add("hover:bg-gray-100", "rounded-full", "p-2", "transition-colors");
+    editButton.title = "Editar plantilla";
+    editButton.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#8f8f8f" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+    </svg>`;
+    editButton.addEventListener("click", function () {
+      console.log("Se ejecuta esto",template);
+      abrirModalPlantilla("editar", template);
+
+    }
+  
+  );
+
+
     // Botón favorito
     const favoriteButton = document.createElement("button");
     favoriteButton.classList.add("hover:bg-gray-100", "rounded-full", "p-2", "transition-colors");
@@ -197,6 +216,7 @@ function renderTemplates() {
     // Añadir botones al contenedor de acciones
     actionButtons.appendChild(linkButton);
     actionButtons.appendChild(copyButton);
+    actionButtons.appendChild(editButton);
     actionButtons.appendChild(favoriteButton);
     
     footerContainer.appendChild(dateContainer);
@@ -216,7 +236,7 @@ function renderTemplates() {
 window.templatesStore.suscribe(saveTemplate);
 
 
-
+/*
 function addHashtag() {
   const container = document.getElementById('hashtag-container');
   const div = document.createElement('div');
@@ -233,8 +253,9 @@ function removeHashtag() {
     container.removeChild(container.lastChild);
   }
 }
+*/
 
-
+/*
 function captureNewTemplate(){
   const title = document.getElementById('title-input').value;
   const message = document.getElementById('message-input').value;
@@ -248,14 +269,14 @@ function captureNewTemplate(){
   .join(',');
 
   return new Template(title,message,hashtags,link,date);
-}
-
+}*/
+    
 
 function clearAll() {
   if(window.templatesStore.getState().length==0){
     showNotification("error","Error","No hay plantillas guardadas");
   }else{
-    mostrarModalConfirmacion({
+    mostrarModalEliminacion({
       titulo: "¿Eliminar TODAS las plantillas?",
       mensaje: "Se eliminarán todas las plantillas guardadas. Esta acción no se puede deshacer.",
       onConfirm: () => {
@@ -268,6 +289,7 @@ function clearAll() {
 
 }
 
+/*
 function clearForm() {
   document.getElementById('title-input').value = '';
   document.getElementById('message-input').value = '';
@@ -279,11 +301,12 @@ function clearForm() {
             <input type="text" class="hashtag-input flex-1 p-2 border rounded" placeholder="Ingrese el hashtag" required>
       </div>
   `;
-}
+}*/
+
 
 // Función para eliminar una plantilla por ID
 function deleteTemplate(id) {
-  mostrarModalConfirmacion({
+  mostrarModalEliminacion({
     titulo: "¿Eliminar esta plantilla?",
     mensaje: "Esta acción eliminará la plantilla permanentemente.",
     onConfirm: () => {
@@ -314,12 +337,13 @@ function toggleFavorite(id) {
 
 
 // Escuchar el evento submit
+/*
 formAddTemplate.addEventListener('submit', function(event) {
   event.preventDefault(); // Evita el comportamiento predeterminado
   window.templatesStore.addTemplate(captureNewTemplate());
   showNotification("success","Exito","Se guardo la plantilla");
   clearForm();
-});
+});*/
 
 
 
@@ -354,4 +378,8 @@ function templateFavorites(){
     }
 
     window.filterManager.applyFilters();
+}
+
+function modalCreateTemplate(){
+   abrirModalPlantilla("create");
 }
