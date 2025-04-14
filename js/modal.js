@@ -122,7 +122,8 @@ document.getElementById("form-plantilla").addEventListener("submit", function (e
   }else{
     window.templatesStore.addTemplate(plantilla);
   }
-
+  
+  window.filterManager.applyFilters();
 
   let mensajeSuccess;
   editandoId? mensajeSuccess="Se edito la plantilla":mensajeSuccess="Se guardo la plantilla";
