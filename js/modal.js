@@ -101,19 +101,19 @@ document.getElementById("form-plantilla").addEventListener("submit", function (e
   .filter(value => value !== '')
   .join(',');
 
-  console.log(hashtags);
 
-  const plantilla=new Template(titulo,mensaje,hashtags,link,new Date().toISOString());
+  let plantilla=new Template(titulo,mensaje,hashtags,link,new Date().toISOString());
   //Si es edicion
   if(editandoId){
-    const template_edit=window.templatesStore.getState().filter(template=>template.id==editandoId);
-    console.log("resultdo",template_edit);
+    const template_edit = window.templatesStore.getState().find(template => template.id == editandoId);
+    console.log("Esta es la plantilla que se editara",template_edit);
     plantilla.id=template_edit.id;
     plantilla.date=template_edit.date;
     plantilla.favorite=template_edit.favorite;
+    console.log("Esta es la plantilla que se edito",plantilla);
     const newTemplates = window.templatesStore.getState().map(template => {
       if (template.id === editandoId) {
-        console.log("Se encontro la plantilla");
+
         template=plantilla;
       }
       return template;
