@@ -173,3 +173,59 @@ window.templatesStore.suscribe(renderTemplates);
 1. **`templates`**: Array global que almacena todas las instancias de la clase `Template`.
    ```javascript
    const templates = [];
+
+## HU Adicionadas
+
+### HU: Marcar plantilla como favorita y filtrar solo favoritas
+**Como** usuario, **quiero** poder marcar una plantilla como favorita **para** identificar y acceder rápidamente a las plantillas más importantes o utilizadas.
+
+#### Criterios de Aceptación:
+- El usuario puede marcar/desmarcar una plantilla como favorita mediante un ícono visual (estrella).
+-  El estado de favorito debe persistir en LocalStorage y reflejarse al recargar la página.
+-  El sistema debe permitir filtrar y mostrar **solo** las plantillas marcadas como favoritas.
+- El diseño del filtro y del ícono debe ser claro, accesible y coherente con la interfaz existente.
+
+> Rama de desarrollo: `feature-template-favorite`
+
+### HU: Filtros por título, hashtags y mensaje de plantilla
+
+**Como** usuario, **quiero** poder buscar y filtrar plantillas por título, hashtags o mensaje **para** encontrar rápidamente la plantilla que necesito sin revisar una por una.
+
+#### Criterios de Aceptación:
+- El sistema debe permitir ingresar un texto de búsqueda.
+-  La búsqueda se realizara luego de presionar el boton **Aplicar Filtros** y mostrar coincidencias  basadas en:
+	  - Título de la plantilla
+	  - Texto del mensaje
+	  - Cualquier hashtag asociado
+-  La búsqueda debe ignorar mayúsculas/minúsculas y espacios innecesarios.
+- Si no hay resultados, se debe mostrar un mensaje amigable al usuario.
+
+> Rama de desarrollo: `feature-add-filter`
+> **strong text**
+## 🔧 Decisiones Técnicas Clave
+
+### 1. Modal reutilizable para "Nueva Plantilla" y "Editar Plantilla"
+Se implementó un único modal dinámico para las funcionalidades de **crear** y **editar** plantillas.  
+Esto se decidió porque ambos casos comparten la misma estructura de datos y campos de entrada:
+
+- Título
+- Mensaje
+- Hashtags (dinámicos)
+- Link
+
+✅ Esta decisión permite **reducir duplicación de código**, mantener una sola fuente de verdad para validaciones, estilos y estructura del formulario, además de facilitar el mantenimiento y escalabilidad futura.
+
+---
+
+### 2. Uso de la clase `FilterManager` para manejar filtros
+Se encapsuló toda la lógica relacionada con los filtros de búsqueda (por título, mensaje y hashtags) dentro de una clase `FilterManager`.
+
+✅ Esta decisión permite:
+- Separar la lógica de filtrado del DOM.
+- Facilitar la reutilización de filtros y su combinación.
+- Mantener el código limpio y modular.
+- Escalar fácilmente la funcionalidad si se agregan nuevos criterios de búsqueda.
+
+Además, esto respeta el principio de **responsabilidad única**, mejorando la mantenibilidad del código a largo plazo.
+
+[Enlace a pagina web](https://cattcloud.github.io/whatsapp-templates/)
