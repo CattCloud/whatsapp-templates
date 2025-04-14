@@ -1,6 +1,8 @@
 const templatesContainer = document.querySelector("#templates-container");
 const btnNewTemplate = document.querySelector("#new-template");
 //const formAddTemplate = document.getElementById("form-addTemplate");
+const container_count_template = document.querySelector("#template-count");
+
 
 document.addEventListener("DOMContentLoaded", function () {
   // Inicializar el store y FilterManager
@@ -20,6 +22,7 @@ function renderTemplates() {
     ? window.filterManager.searchArray
     : window.templatesStore.getState();
 
+    container_count_template.textContent=`${templates.length} Resultados en Plantillas`;
 
   // Verificar si hay plantillas que renderizar
   if (templates.length === 0) {

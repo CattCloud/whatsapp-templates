@@ -21,6 +21,7 @@
       <section id="body_section" class="bg-[#fbfbfb] flex flex-col md:flex-row">
       
         <section class="md:w-1/3 rounded my-4 mx-2 p-1 flex flex-col gap-3">
+              <!-- Contenedor principal de botones Nueva Plantilla,Eliminar Todas y Solo Favoritos -->
               <section class="flex gap-2">
                 <button id="btn-nuevaPlantilla" type="button" onclick="modalCreateTemplate()" class="basis-full p-2 bg-[#6B8E23] text-white rounded-lg font-bold hover:bg-[#556B2F] flex justify-center align-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="white" class="size-6">
@@ -86,13 +87,20 @@
               </section>
         </section>
 
-        <section class="p-2 md:p-4 w-full md:w-2/3">
-          <ul
-            id="templates-container"
-            class="grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr w-full h-full"
-          ></ul>
+        <section class="p-2 md:p-4 w-full md:w-2/3 flex flex-col">
+            <section class="flex flex-wrap items-center justify-between border-b pb-2 mb-4">
+              <!-- Contador -->
+              <p id="template-count" class="text-gray-500 text-mb font-semibold">
+                0 Resultados en Plantillas
+              </p>
+          
+            </section>
+          
+            <ul
+              id="templates-container"
+              class="grid gap-2 md:gap-5 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr w-full h-full"
+            ></ul>
         </section>
-
       </section>
       
 
