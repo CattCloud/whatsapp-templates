@@ -16,7 +16,7 @@ class Template {
     generateId() {
       return `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
     }
-
+    
 
     /*saveTemplate() {
       templates.push(this);
